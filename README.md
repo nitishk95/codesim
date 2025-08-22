@@ -91,19 +91,18 @@ Click "Leave Room" to exit and reset the editor.
 
 code-editor/
 ├── backend/
-│   ├── index.js          # Node.js server with Express, Socket.IO, and Docker
-│   ├── package.json      # Backend dependencies
-│   └── node_modules/
+│ ├── index.js # Node.js server with Express, Socket.IO, and Docker
+│ ├── package.json # Backend dependencies
+│ └── node_modules/
 ├── frontend/
-│   ├── src/
-│   │   ├── App.jsx       # Main React component with editor and UI
-│   │   ├── App.css       # Styles for the frontend
-│   │   └── index.js      # React entry point
-│   ├── dist/             # Built frontend assets
-│   ├── package.json      # Frontend dependencies
-│   └── node_modules/
-└── README.md             # Project documentation
-
+│ ├── src/
+│ │ ├── App.jsx # Main React component with editor and UI
+│ │ ├── App.css # Styles for the frontend
+│ │ └── index.js # React entry point
+│ ├── dist/ # Built frontend assets
+│ ├── package.json # Frontend dependencies
+│ └── node_modules/
+└── README.md # Project documentation
 
 Code Execution Details
 
