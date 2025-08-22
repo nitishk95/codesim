@@ -8,8 +8,6 @@ Features
 
 🌐 Multi-Language Support – JavaScript, Python, Java, C++
 
-🔒 Secure Execution – Runs inside Docker containers (CPU/mem limits, no network, 5s timeout)
-
 👥 User Presence – Shows who’s in the room (join/leave notifications)
 
 ✍️ Typing Indicators – See when others are typing
