@@ -1,3 +1,15 @@
+
+
+
+
+
+
+
+
+
+      
+    // Updated frontend code (App.jsx or App.js)
+
 import { useEffect, useState } from "react";
 import "./App.css";
 import io from "socket.io-client";
@@ -14,6 +26,7 @@ const App = () => {
   const [copySuccess, setCopySuccess] = useState("");
   const [users, setUsers] = useState([]);
   const [typing, setTyping] = useState("");
+  const [output, setOutput] = useState("");
 
   useEffect(() => {
     socket.on("userJoined", (users) => {
@@ -33,11 +46,16 @@ const App = () => {
       setLanguage(newLanguage);
     });
 
+    socket.on("codeOutput", (newOutput) => {
+      setOutput(newOutput);
+    });
+
     return () => {
       socket.off("userJoined");
       socket.off("codeUpdate");
       socket.off("userTyping");
       socket.off("languageUpdate");
+      socket.off("codeOutput");
     };
   }, []);
 
@@ -67,6 +85,7 @@ const App = () => {
     setUserName("");
     setCode("// start code here");
     setLanguage("javascript");
+    setOutput("");
   };
 
   const copyRoomId = () => {
@@ -85,6 +104,10 @@ const App = () => {
     const newLanguage = e.target.value;
     setLanguage(newLanguage);
     socket.emit("languageChange", { roomId, language: newLanguage });
+  };
+
+  const executeCode = () => {
+    socket.emit("executeCode", { roomId, code, language });
   };
 
   if (!joined) {
@@ -137,6 +160,9 @@ const App = () => {
           <option value="java">Java</option>
           <option value="cpp">C++</option>
         </select>
+        <button className="execute-button" onClick={executeCode}>
+          Execute Code
+        </button>
         <button className="leave-button" onClick={leaveRoom}>
           Leave Room
         </button>
@@ -155,6 +181,11 @@ const App = () => {
             fontSize: 14,
           }}
         />
+      </div>
+
+      <div className="output-console">
+        <h3>Output:</h3>
+        <pre>{output}</pre>
       </div>
     </div>
   );
