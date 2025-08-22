@@ -89,8 +89,6 @@ Leave Room:
 Click "Leave Room" to exit and reset the editor.
 
 
-
-Project Structure
 code-editor/
 ├── backend/
 │   ├── index.js          # Node.js server with Express, Socket.IO, and Docker
@@ -105,6 +103,7 @@ code-editor/
 │   ├── package.json      # Frontend dependencies
 │   └── node_modules/
 └── README.md             # Project documentation
+
 
 Code Execution Details
 
