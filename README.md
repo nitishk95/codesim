@@ -2,15 +2,23 @@ Real-Time Collaborative Code Editor
 A web-based, real-time collaborative code editor that allows multiple users to join a room, write, edit, and execute code together in various programming languages (JavaScript, Python, Java, C++). Built with Node.js, Express, Socket.IO, React, and Monaco Editor, it supports live code syncing, user presence, typing indicators, language switching, and secure code execution using Docker.
 Features
 
-Real-Time Collaboration: Multiple users can edit code simultaneously in a shared room, with changes reflected instantly.
-Language Support: Write and execute code in JavaScript, Python, Java, and C++.
-Code Execution: Run code securely in isolated Docker containers, with output displayed in a dedicated console.
-User Management: Displays users in the room and notifies when users join or leave.
-Typing Indicator: Shows when a user is typing, with a truncated username for clarity.
-Language Switching: Dynamically switch languages, updating the editor for all users in the room.
-Room System: Users join rooms using a unique Room ID, with a "Copy ID" feature for sharing.
-Secure Execution: Code runs in sandboxed Docker containers with memory/CPU limits, no network access, and a 5-second timeout.
+🚀 Features
 
+🤝 Real-Time Collaboration – Multiple users can edit simultaneously
+
+🌐 Multi-Language Support – JavaScript, Python, Java, C++
+
+🔒 Secure Execution – Runs inside Docker containers (CPU/mem limits, no network, 5s timeout)
+
+👥 User Presence – Shows who’s in the room (join/leave notifications)
+
+✍️ Typing Indicators – See when others are typing
+
+🔄 Language Switching – Switch languages dynamically, synced across users
+
+📋 Room System – Unique Room ID with copy/share support
+
+🖥 Execution Console – Run code & see live output
 Tech Stack
 
 Backend: Node.js, Express, Socket.IO, Dockerode (for Docker integration)
@@ -90,19 +98,10 @@ Click "Leave Room" to exit and reset the editor.
 
 
 code-editor/
-├── backend/
-│ ├── index.js # Node.js server with Express, Socket.IO, and Docker
-│ ├── package.json # Backend dependencies
-│ └── node_modules/
-├── frontend/
-│ ├── src/
-│ │ ├── App.jsx # Main React component with editor and UI
-│ │ ├── App.css # Styles for the frontend
-│ │ └── index.js # React entry point
-│ ├── dist/ # Built frontend assets
-│ ├── package.json # Frontend dependencies
-│ └── node_modules/
-└── README.md # Project documentation
+ ├── backend/        # Node.js + Express + Socket.IO
+ ├── frontend/       # React + Monaco Editor
+ └── README.md       # Documentation
+
 
 Code Execution Details
 
