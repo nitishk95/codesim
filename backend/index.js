@@ -1,7 +1,12 @@
+// Updated backend code (server.js or index.js)
+
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import path from "path";
+import fs from "fs";
+import os from "os";
+import { exec } from "child_process";
 
 const app = express();
 
@@ -66,6 +71,57 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("languageUpdate", language);
   });
 
+  socket.on("executeCode", ({ roomId, code, language }) => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "codeexec-"));
+    let codeFileName;
+    let cmd;
+
+    switch (language) {
+      case "javascript":
+        codeFileName = "main.js";
+        cmd = `node "${path.join(tempDir, codeFileName)}"`;
+        break;
+      case "python":
+        codeFileName = "main.py";
+        cmd = `python "${path.join(tempDir, codeFileName)}"`;
+        break;
+      case "java":
+        codeFileName = "Main.java";
+        cmd = `javac "${path.join(tempDir, codeFileName)}" && java -cp "${tempDir}" Main`;
+        break;
+      case "cpp":
+        codeFileName = "main.cpp";
+        const outFile = path.join(tempDir, "main");
+        cmd = `g++ "${path.join(tempDir, codeFileName)}" -o "${outFile}" && "${outFile}"`;
+        break;
+      default:
+        io.to(roomId).emit("codeOutput", "Unsupported language");
+        fs.rm(tempDir, { recursive: true }, () => {});
+        return;
+    }
+
+    const filePath = path.join(tempDir, codeFileName);
+
+    try {
+      fs.writeFileSync(filePath, code);
+    } catch (err) {
+      io.to(roomId).emit("codeOutput", `Error writing file: ${err.message}`);
+      fs.rm(tempDir, { recursive: true }, () => {});
+      return;
+    }
+
+    exec(cmd, { timeout: 5000 }, (error, stdout, stderr) => {
+      let output = "";
+      if (stdout) output += stdout;
+      if (stderr) output += `\n${stderr}`;
+      if (error) output += `\nError: ${error.message}`;
+
+      io.to(roomId).emit("codeOutput", output);
+
+      fs.rm(tempDir, { recursive: true }, () => {});
+    });
+  });
+
   socket.on("disconnect", () => {
     if (currentRoom && currentUser) {
       rooms.get(currentRoom).delete(currentUser);
@@ -75,7 +131,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const port = process.env.PORT || 10000;
+const port = process.env.PORT || 3000;
 
 const __dirname = path.resolve();
 
